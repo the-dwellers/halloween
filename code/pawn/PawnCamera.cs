@@ -62,11 +62,10 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 	public void BuildInput()
 	{
 		Entity.InputDirection = Input.AnalogMove;
-		var direction = Screen.GetDirection( Mouse.Position, Camera.FieldOfView, Camera.Rotation, Screen.Size );
-		var hitPos = IntersectPlane( Camera.Position, direction, Entity.EyePosition.z );
-
-		Entity.ViewAngles = (hitPos - Entity.EyePosition).EulerAngles;
-
+		if (!(Entity.Velocity == Vector3.Zero))
+		{
+			Entity.ViewAngles = Entity.Velocity.EulerAngles;
+		}
 	}
 	// 	var wheel = Input.MouseWheel;
 	// 	if ( wheel != 0 )
