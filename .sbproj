@@ -27,6 +27,18 @@
     "GameCategory": "TechDemos",
     "ProjectTemplate": null,
     "TickRate": 50,
-    "CsProjName": ""
+    "CsProjName": "",
+    "LaunchConfigs": [
+      {
+        "Name": "My New Config",
+        "GameIdent": "cave.halloween#local",
+        "MapName": "test_map.vmap",
+        "MaxPlayers": 1,
+        "GameSettings": {},
+        "Addons": "",
+        "PreLaunchCommand": "",
+        "PostLaunchCommand": ""
+      }
+    ]
   }
 }

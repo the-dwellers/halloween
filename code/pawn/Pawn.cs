@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using System.ComponentModel;
 
+
 namespace MyGame;
 
 public partial class Pawn : AnimatedEntity
@@ -89,6 +90,11 @@ public partial class Pawn : AnimatedEntity
 		SimulateRotation();
 		Controller?.Simulate( cl );
 		Animator?.Simulate();
+		if (Input.Pressed("attack1")){
+			new TeenageTerry(){
+				Position = new Vector3(0,0,0)
+			};
+		}
 	}
 
 	public override void BuildInput()
