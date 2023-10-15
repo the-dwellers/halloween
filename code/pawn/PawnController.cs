@@ -10,6 +10,7 @@ public class PawnController : EntityComponent<Pawn>
 	public int GroundAngle => 45;
 	public int JumpSpeed => 410;
 	public float Gravity => 800f;
+	public float MoveSpeed => 200f;
 
 	HashSet<string> ControllerEvents = new( StringComparer.OrdinalIgnoreCase );
 
@@ -32,8 +33,8 @@ public class PawnController : EntityComponent<Pawn>
 				AddEvent( "grounded" );
 			}
 
-			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, moveVector.Length, 200.0f * ( Input.Down( "run" ) ? 2.5f : 1f ), 7.5f );
-			Entity.Velocity = ApplyFriction( Entity.Velocity, 4.0f );
+			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, moveVector.Length, MoveSpeed * ( Input.Down( "run" ) ? 2.5f : 1f ), 3.5f );
+			Entity.Velocity = ApplyFriction( Entity.Velocity, 2.0f );
 		}
 		else
 		{
@@ -135,8 +136,8 @@ public class PawnController : EntityComponent<Pawn>
 	Vector3 ApplyJump( Vector3 input, string jumpType )
 	{
 		AddEvent( jumpType );
-
-		return input + Vector3.Up * JumpSpeed;
+		var rand = new Random().Gaussian(0,stdDev:40) - 2;
+		return input + (Vector3.Up * JumpSpeed);
 	}
 
 	Vector3 StayOnGround( Vector3 position )
