@@ -33,6 +33,9 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 
 	public void Update()
 	{
+		OrbitAngles = new Angles(45, 0, 0);
+		TargetOrbitDistance = 400;
+
 		var pawn = Entity;
 		if ( !pawn.IsValid() )
 			return;
@@ -58,33 +61,40 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 
 	public void BuildInput()
 	{
-		var wheel = Input.MouseWheel;
-		if ( wheel != 0 )
-		{
-			TargetOrbitDistance -= wheel * WheelSpeed;
-			TargetOrbitDistance = TargetOrbitDistance.Clamp( CameraDistance.x, CameraDistance.y );
-		}
-
-		OrbitDistance = OrbitDistance.LerpTo( TargetOrbitDistance, Time.Delta * 10f );
-
-		if ( Input.UsingController || Input.Down( "attack2" ) )
-		{
-			OrbitAngles.yaw += Input.AnalogLook.yaw;
-			OrbitAngles.pitch += Input.AnalogLook.pitch;
-			OrbitAngles = OrbitAngles.Normal;
-
-			Entity.ViewAngles = OrbitAngles.WithPitch( 0f );
-		}
-		else
-		{
-			var direction = Screen.GetDirection( Mouse.Position, Camera.FieldOfView, Camera.Rotation, Screen.Size );
-			var hitPos = IntersectPlane( Camera.Position, direction, Entity.EyePosition.z );
-
-			Entity.ViewAngles = (hitPos - Entity.EyePosition).EulerAngles;
-		}
-
-		OrbitAngles.pitch = OrbitAngles.pitch.Clamp( PitchClamp.x, PitchClamp.y );
-
 		Entity.InputDirection = Input.AnalogMove;
+		var direction = Screen.GetDirection( Mouse.Position, Camera.FieldOfView, Camera.Rotation, Screen.Size );
+		var hitPos = IntersectPlane( Camera.Position, direction, Entity.EyePosition.z );
+
+		Entity.ViewAngles = (hitPos - Entity.EyePosition).EulerAngles;
+
 	}
+	// 	var wheel = Input.MouseWheel;
+	// 	if ( wheel != 0 )
+	// 	{
+	// 		TargetOrbitDistance -= wheel * WheelSpeed;
+	// 		TargetOrbitDistance = TargetOrbitDistance.Clamp( CameraDistance.x, CameraDistance.y );
+	// 	}
+
+	// 	OrbitDistance = OrbitDistance.LerpTo( TargetOrbitDistance, Time.Delta * 10f );
+
+	// 	if ( Input.UsingController || Input.Down( "attack2" ) )
+	// 	{
+	// 		OrbitAngles.yaw += Input.AnalogLook.yaw;
+	// 		OrbitAngles.pitch += Input.AnalogLook.pitch;
+	// 		OrbitAngles = OrbitAngles.Normal;
+
+	// 		Entity.ViewAngles = OrbitAngles.WithPitch( 0f );
+	// 	}
+	// 	else
+	// 	{
+	// 		var direction = Screen.GetDirection( Mouse.Position, Camera.FieldOfView, Camera.Rotation, Screen.Size );
+	// 		var hitPos = IntersectPlane( Camera.Position, direction, Entity.EyePosition.z );
+
+	// 		Entity.ViewAngles = (hitPos - Entity.EyePosition).EulerAngles;
+	// 	}
+
+	// 	OrbitAngles.pitch = OrbitAngles.pitch.Clamp( PitchClamp.x, PitchClamp.y );
+
+	// 	Entity.InputDirection = Input.AnalogMove;
+	// }
 }
