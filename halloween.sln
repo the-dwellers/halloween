@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base Library", "E:\Games\Steam\steamapps\common\sbox\addons\base\code\Base Library.csproj", "{3CFCECAD-98E9-581B-90CF-75E5F2B140CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base Library", "D:\SteamLibrary\steamapps\common\sbox\addons\base\code\Base Library.csproj", "{3CFCECAD-98E9-581B-90CF-75E5F2B140CA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Menu Addon", "E:\Games\Steam\steamapps\common\sbox\addons\menu\code\Menu Addon.csproj", "{F7B302F1-3AFB-3BF7-9D5A-B3787E45E792}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Menu Addon", "D:\SteamLibrary\steamapps\common\sbox\addons\menu\code\Menu Addon.csproj", "{F7B302F1-3AFB-3BF7-9D5A-B3787E45E792}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base Editor Library", "E:\Games\Steam\steamapps\common\sbox\addons\tools\\code\Base Editor Library.csproj", "{0DDD0665-950C-B4D6-56B9-A5A4C73C7423}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base Editor Library", "D:\SteamLibrary\steamapps\common\sbox\addons\tools\\code\Base Editor Library.csproj", "{0DDD0665-950C-B4D6-56B9-A5A4C73C7423}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entity Prefab Editor", "E:\Games\Steam\steamapps\common\sbox\editor\EntityPrefabEditor\Entity Prefab Editor.csproj", "{74E6592C-05FA-C388-F145-5E3568E733DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entity Prefab Editor", "D:\SteamLibrary\steamapps\common\sbox\editor\EntityPrefabEditor\Entity Prefab Editor.csproj", "{74E6592C-05FA-C388-F145-5E3568E733DE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shader Graph", "E:\Games\Steam\steamapps\common\sbox\editor\ShaderGraph\Shader Graph.csproj", "{3696C4FE-B5DF-4E46-283A-A0E0E0468C82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shader Graph", "D:\SteamLibrary\steamapps\common\sbox\editor\ShaderGraph\Shader Graph.csproj", "{3696C4FE-B5DF-4E46-283A-A0E0E0468C82}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Halloween", "code\Halloween.csproj", "{92BA54F1-E344-D4F7-C0D3-C088F1ABDD03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "halloween", "code\halloween.csproj", "{046736B9-3AFB-22BE-48C5-752845F7BCAE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{7E84B5F6-56F9-A3B2-F215-7A71616B85A2}"
 EndProject
@@ -46,10 +46,10 @@ Global
 		{3696C4FE-B5DF-4E46-283A-A0E0E0468C82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3696C4FE-B5DF-4E46-283A-A0E0E0468C82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3696C4FE-B5DF-4E46-283A-A0E0E0468C82}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92BA54F1-E344-D4F7-C0D3-C088F1ABDD03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92BA54F1-E344-D4F7-C0D3-C088F1ABDD03}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92BA54F1-E344-D4F7-C0D3-C088F1ABDD03}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92BA54F1-E344-D4F7-C0D3-C088F1ABDD03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{046736B9-3AFB-22BE-48C5-752845F7BCAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{046736B9-3AFB-22BE-48C5-752845F7BCAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{046736B9-3AFB-22BE-48C5-752845F7BCAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{046736B9-3AFB-22BE-48C5-752845F7BCAE}.Release|Any CPU.Build.0 = Release|Any CPU
 
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
