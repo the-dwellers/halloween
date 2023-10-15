@@ -1,11 +1,11 @@
-# Top Down Template
-Designed as a minimal starting point for your projects in s&box.
+# Halloween Gamejam
 
-## Features
-- Top down camera
-- Simple pawn controller
+> [**Mighty Brick Halloween Game Jam**](https://mighty-brick.github.io/)
+>
+> Week-long s&box game development contest to make a spooky game with a URBAN LEGENDS subtheme.
+
+As a urban legend hiding in the woods, stop the nerds from reading your secret diary! Also avoid sticks, don't want to fall over and die of cringe!
 
 ## Controls
 - Regular movement with WASD
-- Rotate the camera with right mouse button
-- Zoom the camera with mouse wheel
+- Jump with spacebar for extra speed
