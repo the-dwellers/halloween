@@ -1,22 +1,60 @@
 using Sandbox;
-using Sandbox.UI;
 using System;
 using System.Linq;
 
 namespace MyGame;
-public class TeenageTerry : AnimatedEntity
+public partial class TeenageTerry : AnimatedEntity
 {
+	public Vector3 EyePosition
+	{
+		get => Transform.PointToWorld( EyeLocalPosition );
+		set => EyeLocalPosition = Transform.PointToLocal( value );
+	}
+
+	/// <summary>
+	/// Position a player should be looking from in local to the entity coordinates.
+	/// </summary>
+	[Net, Predicted]
+	public Vector3 EyeLocalPosition { get; set; }
+
+	/// <summary>
+	/// Rotation of the entity's "eyes", i.e. rotation for the camera when this entity is used as the view entity.
+	/// </summary>
+	public Rotation EyeRotation
+	{
+		get => Transform.RotationToWorld( EyeLocalRotation );
+		set => EyeLocalRotation = Transform.RotationToLocal( value );
+	}
+
+	/// <summary>
+	/// Rotation of the entity's "eyes", i.e. rotation for the camera when this entity is used as the view entity. In local to the entity coordinates.
+	/// </summary>
+	[Net, Predicted]
+	public Rotation EyeLocalRotation { get; set; }
+
+	public BBox Hull
+	{
+		get => new
+		(
+			new Vector3( -16, -16, 0 ),
+			new Vector3( 16, 16, 64 )
+		);
+	}
+	
+	public TTAnimator Animator = new();
+	public override Ray AimRay => new Ray( EyePosition, EyeRotation.Forward );
+
 	protected string State;
 	protected Vector3[] Path;
 	protected int CurrentPathSegment;
 	protected TimeSince TimeSinceGeneratedPath = 0;
 	protected float move_speed;
-
 	protected float LastTickPlayerDistance;
-
-	const float CHASE_DISTANCE = 200f;
+	protected float standing_time = 0;
+	const float CHASE_DISTANCE = 100f;
 	const float MOVEMENT_SPEED = 4f;
 
+	
 
 	public override void Spawn()
 	{
@@ -27,19 +65,18 @@ public class TeenageTerry : AnimatedEntity
 	[GameEvent.Tick.Server]
 	private void Tick()
 	{
-		var helper = new CitizenAnimationHelper( this );
-		helper.WithVelocity( Velocity );
-		helper.HoldType = CitizenAnimationHelper.HoldTypes.None;
-		helper.IsGrounded = GroundEntity.IsValid();
-		helper.WithLookAt(Velocity);
 		switch ( State )
 		{
 			case "idle":
+				move_speed = MOVEMENT_SPEED * 0.5f;
 				PerformStateIdle();
 				break;
 			case "running_away":
 				move_speed = MOVEMENT_SPEED;
 				PerformStateAttackingPawn();
+				break;
+			case "standing":
+				PerformStateStanding();
 				break;
 			default:
 				State = "idle";
@@ -47,6 +84,26 @@ public class TeenageTerry : AnimatedEntity
 		}
 	}
 
+	protected void PerformStateStanding()
+	{
+		
+		var Pawn = GetClosestPawn();
+		if ( Pawn != null && Pawn.Position.Distance( Position ) <= CHASE_DISTANCE ){
+			State = "running_away";
+			return;
+		}
+		move_speed = 0;
+		if ( TimeSinceGeneratedPath >= 1.5 )
+			GeneratePathIdle();
+		TraversePath();
+		standing_time += 1;
+		if (standing_time > 180)
+		{
+			State = "idle";
+			return;
+		}
+		
+	}
 	protected void PerformStateIdle()
 	{
 		var Pawn = GetClosestPawn();
@@ -54,9 +111,13 @@ public class TeenageTerry : AnimatedEntity
 			State = "running_away";
 			return;
 		}
-
-		
-		
+		if ( TimeSinceGeneratedPath >= 1.5 )
+			GeneratePathIdle();
+		TraversePath();
+		var random = new Random();
+		if (random.Int(120) == 1){
+			State = "standing";
+		}
 	}
 
 	protected void PerformStateAttackingPawn()
@@ -74,9 +135,7 @@ public class TeenageTerry : AnimatedEntity
 		if ( TimeSinceGeneratedPath >= 0.05 )
 			GeneratePathRun( Pawn );
 
-		if (PawnDist > LastTickPlayerDistance){
-			move_speed *= 1 / DistToPlayerChase;
-		}
+		move_speed *= (1 / DistToPlayerChase);		
 		
 		LastTickPlayerDistance = PawnDist;
 		TraversePath();
@@ -98,17 +157,16 @@ public class TeenageTerry : AnimatedEntity
 			.WithMaxClimbDistance( 16f )
 			.WithMaxDropDistance( 16f )
 			.WithStepHeight( 16f )
-			.WithMaxDistance( 256 )
+			.WithMaxDistance( 200 )
 			.WithPartialPaths()
 			.Build( Position + random.VectorInSphere(200))
 			.Segments
 			.Select( x => x.Position )
 			.ToArray();
 
-		TraversePath();
 		CurrentPathSegment = 0;
 	}
-	protected void GeneratePathRun( Pawn target )
+	public virtual void  GeneratePathRun( Pawn target )
 	{
 		TimeSinceGeneratedPath = 0;
 		
@@ -117,7 +175,7 @@ public class TeenageTerry : AnimatedEntity
 			.WithMaxClimbDistance( 16f )
 			.WithMaxDropDistance( 16f )
 			.WithStepHeight( 16f )
-			.WithMaxDistance( 256 )
+			.WithMaxDistance( 64 )
 			.WithPartialPaths()
 			.Build( Position + (Position.Normal - target.Position.Normal) * 2000 )
 			.Segments
@@ -127,7 +185,7 @@ public class TeenageTerry : AnimatedEntity
 		CurrentPathSegment = 0;
 	}
 
-	protected void TraversePath()
+	public virtual void TraversePath()
 	{
 		if ( Path == null )
 			return;
@@ -152,9 +210,10 @@ public class TeenageTerry : AnimatedEntity
 				CurrentPathSegment++;
 			}
 
-			if ( CurrentPathSegment == Path.Count() )
+			if ( CurrentPathSegment == Path.Length )
 			{
 				Path = null;
+				move_speed = 0;
 				return;				
 			}
 		}
