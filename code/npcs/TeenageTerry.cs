@@ -5,45 +5,6 @@ using System.Linq;
 namespace MyGame;
 public partial class TeenageTerry : AnimatedEntity
 {
-	public Vector3 EyePosition
-	{
-		get => Transform.PointToWorld( EyeLocalPosition );
-		set => EyeLocalPosition = Transform.PointToLocal( value );
-	}
-
-	/// <summary>
-	/// Position a player should be looking from in local to the entity coordinates.
-	/// </summary>
-	[Net, Predicted]
-	public Vector3 EyeLocalPosition { get; set; }
-
-	/// <summary>
-	/// Rotation of the entity's "eyes", i.e. rotation for the camera when this entity is used as the view entity.
-	/// </summary>
-	public Rotation EyeRotation
-	{
-		get => Transform.RotationToWorld( EyeLocalRotation );
-		set => EyeLocalRotation = Transform.RotationToLocal( value );
-	}
-
-	/// <summary>
-	/// Rotation of the entity's "eyes", i.e. rotation for the camera when this entity is used as the view entity. In local to the entity coordinates.
-	/// </summary>
-	[Net, Predicted]
-	public Rotation EyeLocalRotation { get; set; }
-
-	public BBox Hull
-	{
-		get => new
-		(
-			new Vector3( -16, -16, 0 ),
-			new Vector3( 16, 16, 64 )
-		);
-	}
-	
-	public TTAnimator Animator = new();
-	public override Ray AimRay => new Ray( EyePosition, EyeRotation.Forward );
-
 	protected string State;
 	protected Vector3[] Path;
 	protected int CurrentPathSegment;
@@ -53,9 +14,6 @@ public partial class TeenageTerry : AnimatedEntity
 	protected float standing_time = 0;
 	const float CHASE_DISTANCE = 100f;
 	const float MOVEMENT_SPEED = 4f;
-
-	
-
 	public override void Spawn()
 	{
 		SetModel( "models/citizen/citizen.vmdl" );
