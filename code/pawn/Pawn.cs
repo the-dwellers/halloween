@@ -8,7 +8,7 @@ public partial class Pawn : AnimatedEntity
 {
 	[ClientInput]
 	public Vector3 InputDirection { get; set; }
-	
+
 	[ClientInput]
 	public Angles ViewAngles { get; set; }
 
@@ -60,7 +60,7 @@ public partial class Pawn : AnimatedEntity
 	public override Ray AimRay => new Ray( EyePosition, EyeRotation.Forward );
 
 	/// <summary>
-	/// Called when the entity is first created 
+	/// Called when the entity is first created
 	/// </summary>
 	public override void Spawn()
 	{
@@ -91,7 +91,7 @@ public partial class Pawn : AnimatedEntity
 		Controller?.Simulate( cl );
 		Animator?.Simulate();
 		if (Input.Pressed("attack1")){
-			new TeenageTerry(){
+			new BaseNPC(){
 				Position = new Vector3(0,0,0)
 			};
 		}
